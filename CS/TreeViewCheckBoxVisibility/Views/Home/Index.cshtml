@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "How to manage the visibility of check boxes via the AllowCheck property";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("FormAction", "Home", FormMethod.Post, new { id = "mainForm" })) {
+@Html.DevExpress().RadioButtonList(settings => {
+    settings.Name = "rbList";
+    settings.Properties.Items.Add(new ListEditItem() {
+        Value = "0",
+        Text = "Hide all check boxes"
+    });
+    settings.Properties.Items.Add(new ListEditItem() {
+        Value = "1",
+        Text = "Show check boxes for leaf nodes only"
+    });
+    settings.Properties.Items.Add(new ListEditItem() {
+        Value = "2",
+        Text = "Show all check boxes"
+    });
+    settings.Properties.ClientSideEvents.ValueChanged = "OnRadioButtonValueChanged";
+    settings.PreRender = (sender, e) => {
+        MVCxRadioButtonList rbList = sender as MVCxRadioButtonList;
+        rbList.SelectedIndex = ViewBag.SelectedIndex;
+    };
+}).GetHtml()
+    
+@Html.DevExpress().TreeView(settings => {
+    settings.Name = "treeView";
+    settings.DataBound = (sender, e) => {
+        MVCxTreeView treeView = sender as MVCxTreeView;
+        treeView.ExpandAll();
+        treeView.AllowCheckNodes = !(ViewBag.SelectedIndex == 0);
+        TreeViewCheckBoxVisibility.Helpers.MyHelper.RestoreSelection(treeView, ViewBag.SelectedNodeNames);
+        TreeViewCheckBoxVisibility.Helpers.MyHelper.AllowCheckNodes(treeView, ViewBag.SelectedIndex);
+        Session["disabledList"] = TreeViewCheckBoxVisibility.Helpers.MyHelper.ChangeAccessibility(treeView, (ViewBag.CurrentState == "Disable" ? false : true), Session["disabledList"].ToString());
+        TreeViewCheckBoxVisibility.Helpers.MyHelper.RestoreAccessibility(treeView, ViewBag.DisabledList);
+    };
+    settings.ClientSideEvents.CheckedChanged = "OnTreeViewCheckedChanged";
+}).BindToSiteMap("~/App_Data/Feature.sitemap", false).GetHtml()
+   
+@Html.Hidden("tvhSelectedNodes")
+@Html.Hidden("tvhCurrentState")
+    <table>
+        <tr>
+            <td>
+@Html.DevExpress().Button(settings => {
+    settings.Name = "btnDisable";
+    settings.Text = "Disable checked nodes";
+    settings.RouteValues = new { Controller = "Home", Action = "FormAction", actionName = "Disable" };
+    settings.UseSubmitBehavior = true;
+    settings.ClientSideEvents.Click = "OnDisableButtonClick";
+}).GetHtml()
+            </td>
+            <td>
+@Html.DevExpress().Button(settings => {
+    settings.Name = "btnEnable";
+    settings.Text = "Enable checked nodes";
+    settings.RouteValues = new { Controller = "Home", Action = "FormAction", actionName = "Enable" };
+    settings.UseSubmitBehavior = true;
+    settings.ClientSideEvents.Click = "OnEnableButtonClick";
+}).GetHtml()  
+            </td>
+        </tr>
+    </table>  
+}
