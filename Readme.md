@@ -1,3 +1,11 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [HomeController.cs](./CS/TreeViewCheckBoxVisibility/Controllers/HomeController.cs)
+* [MyHelper.cs](./CS/TreeViewCheckBoxVisibility/Helpers/MyHelper.cs)
+* [JSCustom.js](./CS/TreeViewCheckBoxVisibility/Scripts/JSCustom.js)
+* [Index.cshtml](./CS/TreeViewCheckBoxVisibility/Views/Home/Index.cshtml)
+<!-- default file list end -->
 # TreeView - How to manage the visibility of check boxes via the AllowCheck property
 
 
