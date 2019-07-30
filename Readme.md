@@ -8,7 +8,7 @@
 <!-- default file list end -->
 # TreeView - How to manage the visibility of check boxes via the AllowCheck property
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/e20061)**
+**[[Run Online]](https://codecentral.devexpress.com/e20061/)**
 <!-- run online end -->
 
 
