@@ -1,1 +1,0 @@
-<%@ Application Codebehind="Global.asax.cs" Inherits="TreeViewCheckBoxVisibility.MvcApplication" Language="C#" %>
